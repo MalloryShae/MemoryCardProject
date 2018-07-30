@@ -36,15 +36,40 @@ function shuffle(array) {
  *    + if all cards have matched, display a message with the final score (put this functionality in another function that you call from this one)
  */
 
+
 /*
- * Flip Card
+ * Flip Card + Only allow 2 cards to be flipped 
  */
 
- const allCards = document.getElementsByClassName ('card')
- const cardsArray = Array.from(allCards)
+const allCards = document.getElementsByClassName ('card')
+const cardsArray = Array.from(allCards)
 
-cardsArray.forEach(function (card){
-    card.addEventListener('click', function(){
-      card.classList.add('open', 'show')
+cardsArray.forEach(function cardClick (card){
+    card.addEventListener('click', function cardFLip (){
+      let openCards = document.getElementsByClassName('open')
+      let openArray = Array.from(openCards)
+      if (openArray.length < 2){
+        card.classList.add('open', 'show')
+      }
     })
   });
+
+/*
+ * Flip Card + Allow only 2 (abandoned attempt)
+ */
+ //
+ // const allCards = document.getElementsByClassName ('card')
+ // const cardsArray = Array.from(allCards)
+ //
+ // let openCards = document.getElementsByClassName('open')
+ // let openArray = Array.from(openCards)
+ //
+ // let cardFlip = function (){
+ //   if (openArray.length < 2){
+ //      card.classList.add('open', 'show');
+ //    }
+ //  };
+ //
+ //  cardsArray.forEach(function cardClick (card){
+ //    card.addEventListener ('click', cardFlip)
+ //  });
