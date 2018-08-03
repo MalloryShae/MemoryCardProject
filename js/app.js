@@ -73,11 +73,11 @@ cardsArray.forEach(function cardClick (card){
             openCards[1].classList.add('match');
             openCards = [];
           }
-          // else {
-          //   openCards[0].classList.remove('open', 'show','disable')
-          //   openCards[1].classList.remove('open', 'show','disable')
-          //   openCards -[]
-          // }
+          else setTimeout (function(){
+            openCards[0].classList.remove('open', 'show','disable')
+            openCards[1].classList.remove('open', 'show','disable')
+            openCards = []
+          }, 1000);
         }
       }
     })
