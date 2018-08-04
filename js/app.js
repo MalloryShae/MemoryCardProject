@@ -51,10 +51,15 @@ shuffledCards.forEach(function(sCard){
  * Flip Card + Only allow 2 cards to be flipped - WORKS
  */
 
-//NOTES: AM 8/1 - need to separate out functions, see instructions/hints above, moved card array to the top of this page
+// NOTES: AM 8/1 - need to separate out functions, see instructions/hints above, moved card array to the top of this page
 // NOTES: AM 8/3 - working on separating out functions below, but not sure this is the solution I'm looking for. Still getting stuck on the logic after the cards are flipped. The for each loop and the nested functions within that make more sense to me. BUT I think the nesting might be what is hanging me up. Even so if you are going to be separating the functions and then calling them within the other functions then that's still the same thing so maybe this is a giant waste of time!
+// NOTES: PM 8/4 - got the for each loop I was originally working on to work. Stopped trying to separate out the functions. May need to go back and do that if the hits in the starter code comments are any indication. But for now I have the card flipping and matching working. Next up I think I will try to get the moves counter to work.
 
 let openCards = []
+
+let movesDisplay = document.querySelector('.moves')
+
+let moves = 0
 
 //-----this for each loop works, adds event listner for click and only flips two cards, stuck after that so tried for loop you see below---
 cardsArray.forEach(function cardClick (card){
@@ -73,60 +78,61 @@ cardsArray.forEach(function cardClick (card){
             openCards[1].classList.add('match');
             openCards = [];
           }
+          //if there is not a match, wait 1 second (1000miliseconds), flip cards back, empty open card array
           else setTimeout (function(){
             openCards[0].classList.remove('open', 'show','disable')
             openCards[1].classList.remove('open', 'show','disable')
             openCards = []
           }, 1000);
+            //increments the moves display counter (adds one each time there are two open cards - doesn't matter if that match or not) --- changed html to start at 0 not sure if I was supposed to/allowed to do that
+            moves ++;
+            movesDisplay.textContent = moves
         }
       }
     })
   });
 
-//---this check for matched cards below does not work, continues on subsewuent clicks, if you add the same if (openCards.length <=1) it doesn't work at all. If you want to try again you need to put this back in the for each function above, after the if function is closed
-//       // // checks for matched cards
-//       // openCards.forEach(function openCardMatch (open){
-//       //   console.log(open.innerHTML)
-//       // })
+// --- Altertanative attempts are below this line --- Everything above this line is currently what I'm working on ---
 
 
+// - Attempt to separate out functions -
+    // //works to 'flip' a card when for loop is run, cardFlip has to be defined before running the loop as this is pased into it
+    // let cardFlip = function (){
+    //   this.classList.add('open','show', 'disable');
+    //   openCards.push(this);
+    //   console.log(openCards.length);
+    // }
+    //
+    // // works to add event listener to each card with a for loop instead of for each
+    //   for (let x = 0; x < cardsArray.length; x++ ){
+    //     cardsArray[x].addEventListener('click', cardFlip)
+    //   }
 
-// //works to 'flip' a card when for loop is run, cardFlip has to be defined before running the loop as this is pased into it
-// let cardFlip = function (){
-//   this.classList.add('open','show', 'disable');
-//   openCards.push(this);
-//   console.log(openCards.length);
-// }
-//
-// // works to add event listener to each card with a for loop instead of for each
-//   for (let x = 0; x < cardsArray.length; x++ ){
-//     cardsArray[x].addEventListener('click', cardFlip)
-//   }
+// - Can't remember what I was doing here, not sure I need this anymore, but will keep just incase
+    // searches for any cards with open class and creates an array
+    //   let openCards = document.getElementsByClassName('open')
+    //   let openArray = Array.from(openCards)
+    //   let openCard1 = openArray[0]
+    //   let openCard2 = openArray[1]
 
 
-// searches for any cards with open class and creates an array
-  // let openCards = document.getElementsByClassName('open')
-  // let openArray = Array.from(openCards)
-  // let openCard1 = openArray[0]
-  // let openCard2 = openArray[1]
-
-
-/*
- * Flip Card + Allow only 2 (abandoned attempt)
- */
- //
- // const allCards = document.getElementsByClassName ('card')
- // const cardsArray = Array.from(allCards)
- //
- // let openCards = document.getElementsByClassName('open')
- // let openArray = Array.from(openCards)
- //
- // let cardFlip = cardsArray.forEach(function (card){
- //   if (openArray.length < 2){
- //      card.classList.add('open', 'show');
- //    }
- //  };
- //
- //  cardsArray.forEach(function cardClick (){
- //    card.addEventListener ('click', cardFlip)
- //  });
+// - I think this was my first attempt at separating out the functions, but was still trying to use for each loop instead of regular for loop.
+    /*
+     * Flip Card + Allow only 2 (abandoned attempt)
+     */
+         //
+         // const allCards = document.getElementsByClassName ('card')
+         // const cardsArray = Array.from(allCards)
+         //
+         // let openCards = document.getElementsByClassName('open')
+         // let openArray = Array.from(openCards)
+         //
+         // let cardFlip = cardsArray.forEach(function (card){
+         //   if (openArray.length < 2){
+         //      card.classList.add('open', 'show');
+         //    }
+         //  };
+         //
+         //  cardsArray.forEach(function cardClick (){
+         //    card.addEventListener ('click', cardFlip)
+         //  });
