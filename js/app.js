@@ -54,9 +54,9 @@ shuffledCards.forEach(function(sCard){
 // NOTES: AM 8/1 - need to separate out functions, see instructions/hints above, moved card array to the top of this page
 // NOTES: AM 8/3 - working on separating out functions below, but not sure this is the solution I'm looking for. Still getting stuck on the logic after the cards are flipped. The for each loop and the nested functions within that make more sense to me. BUT I think the nesting might be what is hanging me up. Even so if you are going to be separating the functions and then calling them within the other functions then that's still the same thing so maybe this is a giant waste of time!
 // NOTES: PM 8/4 - got the for each loop I was originally working on to work. Stopped trying to separate out the functions. May need to go back and do that if the hits in the starter code comments are any indication. But for now I have the card flipping and matching working. Next up I think I will try to get the moves counter to work.
-// NOTES: PM 8/5 - added move counter and it works, not sure if I was allowed to switch the html to start at 0, but I did.
-// Working on stars - set if else function for number of moves. 8-12 moves = 3 stars, 13-20 moves = 2 stars, >20 moves =1star
-//Working on timer. Set initial font size to 0, so the timer doesn't dipslay until it starts with the first card is clicked. Not sure how to set it up for just the one click.
+// NOTES: PM 8/5 - added move counter and it works, not sure if I was allowed to switch the html to start at 0, but I did. Added stars decreasing functionality.
+//Working on timer. Currently timer works and displays correctly on page load
+//next steps: Set initial font size to 0, so the timer doesn't dipslay until it starts with the first card is clicked. Not sure how to set it up for just the one click.
 
 //GENERAL NOTE before submitting project - go back and look at lesson 21 - avoid using too many events. May need to restructure this.
 
@@ -68,11 +68,39 @@ let moves = 0
 
 let stars = Array.from(document.getElementsByClassName('fa fa-star'))
 
+
+// working on timer -------------
+let timerOff = true
+let timeDisplay = document.querySelector('.timer')
+let seconds = 0
+let minutes = 0
+
+
+
 //-----this for each loop works, adds event listner for click and only flips two cards, stuck after that so tried for loop you see below---
 cardsArray.forEach(function cardClick (card){
 
   // listens for click of each card
-    card.addEventListener('click', function cardFLip (){
+    card.addEventListener('click', function (){
+
+      //starts timer - checks if timer is off(on each click), if it is off, it sets it to on (aka timerOff=false), once timer is on it increase the time each second (did not add hours, should I?)
+      if (timerOff){
+          timerOff = false
+        setInterval(function(){
+            seconds++;
+            if (seconds < 10){
+             timeDisplay.textContent = minutes+":0"+seconds;
+             }
+            else if (seconds >= 10 && seconds <60){
+              timeDisplay.textContent = minutes+":"+seconds;
+            }
+            else if (seconds === 60){
+              minutes++;
+              seconds = 0;
+              timeDisplay.textContent = minutes+":0"+seconds;
+            }
+          }, 1000)
+        }
 
       // stops showing any cards after 2 have been flipped
       if (openCards.length < 2){
