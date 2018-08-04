@@ -54,6 +54,11 @@ shuffledCards.forEach(function(sCard){
 // NOTES: AM 8/1 - need to separate out functions, see instructions/hints above, moved card array to the top of this page
 // NOTES: AM 8/3 - working on separating out functions below, but not sure this is the solution I'm looking for. Still getting stuck on the logic after the cards are flipped. The for each loop and the nested functions within that make more sense to me. BUT I think the nesting might be what is hanging me up. Even so if you are going to be separating the functions and then calling them within the other functions then that's still the same thing so maybe this is a giant waste of time!
 // NOTES: PM 8/4 - got the for each loop I was originally working on to work. Stopped trying to separate out the functions. May need to go back and do that if the hits in the starter code comments are any indication. But for now I have the card flipping and matching working. Next up I think I will try to get the moves counter to work.
+// NOTES: PM 8/5 - added move counter and it works, not sure if I was allowed to switch the html to start at 0, but I did.
+// Working on stars - set if else function for number of moves. 8-12 moves = 3 stars, 13-20 moves = 2 stars, >20 moves =1star
+//Working on timer. Set initial font size to 0, so the timer doesn't dipslay until it starts with the first card is clicked. Not sure how to set it up for just the one click.
+
+//GENERAL NOTE before submitting project - go back and look at lesson 21 - avoid using too many events. May need to restructure this.
 
 let openCards = []
 
@@ -61,35 +66,54 @@ let movesDisplay = document.querySelector('.moves')
 
 let moves = 0
 
+let stars = Array.from(document.getElementsByClassName('fa fa-star'))
+
 //-----this for each loop works, adds event listner for click and only flips two cards, stuck after that so tried for loop you see below---
 cardsArray.forEach(function cardClick (card){
 
   // listens for click of each card
     card.addEventListener('click', function cardFLip (){
+
       // stops showing any cards after 2 have been flipped
       if (openCards.length < 2){
         card.classList.add('open', 'show', 'disable');
         openCards.push(card);
+
         //once two cards are open check for match
         if (openCards.length === 2){
           if (openCards[0].innerHTML === openCards[1].innerHTML){
+
             //if there is a match, keep cards flipped and change color, then empty the open card array
             openCards[0].classList.add('match');
             openCards[1].classList.add('match');
             openCards = [];
           }
+
           //if there is not a match, wait 1 second (1000miliseconds), flip cards back, empty open card array
           else setTimeout (function(){
-            openCards[0].classList.remove('open', 'show','disable')
-            openCards[1].classList.remove('open', 'show','disable')
-            openCards = []
+            openCards[0].classList.remove('open', 'show','disable');
+            openCards[1].classList.remove('open', 'show','disable');
+            openCards = [];
           }, 1000);
-            //increments the moves display counter (adds one each time there are two open cards - doesn't matter if that match or not) --- changed html to start at 0 not sure if I was supposed to/allowed to do that
-            moves ++;
-            movesDisplay.textContent = moves
+
+          //increments the moves display counter (adds one each time there are two open cards - doesn't matter if that match or not) --- changed html to start at 0 not sure if I was supposed to/allowed to do that
+          moves ++;
+          movesDisplay.textContent = moves
+
+          //change the star rating based on number of moves
+          if (moves > 12 && moves <= 20){
+              stars[2].style.visibility = 'hidden';
+          }
+          else if (moves > 20){
+            stars[1].style.visibility = 'hidden';
+          }
+
         }
+
       }
+
     })
+
   });
 
 // --- Altertanative attempts are below this line --- Everything above this line is currently what I'm working on ---
