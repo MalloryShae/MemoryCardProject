@@ -86,26 +86,33 @@ let starCounter = function(){
 }
 
 let timerOff = true
-let timeDisplay = document.querySelector('.timer')
 let seconds = 0
 let minutes = 0
+let time;
 
-let runTimer = function (){
-  setInterval(function(){
-      seconds++;
-      if (seconds < 10){
-       timeDisplay.textContent = minutes+":0"+seconds;
-       }
-      else if (seconds >= 10 && seconds <60){
-        timeDisplay.textContent = minutes+":"+seconds;
-      }
-      else if (seconds === 60){
-        minutes++;
-        seconds = 0;
-        timeDisplay.textContent = minutes+":0"+seconds;
-      }
-    }, 1000)
+let displayTime = function (){
+  const timeDisplay = document.querySelector('.timer')
+  if (seconds < 10){
+   timeDisplay.textContent = minutes+":0"+seconds;
+   }
+  else if (seconds >= 10 && seconds <60){
+    timeDisplay.textContent = minutes+":"+seconds;
+  }
+  else if (seconds === 60){
+    minutes++;
+    seconds = 0;
+    timeDisplay.textContent = minutes+":0"+seconds;
+  }
 }
+
+let runTimer = function(){
+  time = setInterval(function(){
+    seconds++;
+    displayTime();
+  }, 1000)
+}
+
+
 
 let matchedCards =[]
 
@@ -133,7 +140,7 @@ resetButton.addEventListener('click', function(){
   location.reload();
 })
 
-//-----this for each loop works, adds event listner for click and only flips two cards, stuck after that so tried for loop you see below---
+//-----loops over each 'card' in card Array---
 cardsArray.forEach(function cardClick (card){
 
   // listens for click of each card
@@ -141,9 +148,9 @@ cardsArray.forEach(function cardClick (card){
 
       //starts timer - checks if timer is off(on each click), if it is off, it sets it to on (aka timerOff=false), once timer is on it increase the time each second (did not add hours, should I?) -also is there better way to do this so it's not checking on each click?
       if (timerOff){
+        runTimer();
           timerOff = false
-          runTimer();
-        }
+          }
 
       // stops showing any cards after 2 have been flipped
       if (openCards.length < 2){
@@ -168,12 +175,13 @@ cardsArray.forEach(function cardClick (card){
 
       }
 
-      //working on winning functionality
-        // if (matchedCards.length === 8){
-        //   console.log("you've won!")
-        // }
-
+        // working on winning functionality
+          if (matchedCards.length === 8){
+            console.log("you win")
+            clearInterval(time);
+          }
     })
+
 
   });
 
