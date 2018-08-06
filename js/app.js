@@ -57,7 +57,11 @@ shuffledCards.forEach(function(sCard){
 // NOTES: PM 8/5 -
     //Added move counter and it works, not sure if I was allowed to switch the html to start at 0, but I did. Added stars decreasing functionality.
     //Added timer and it works, starts on first click and goes up by second, displays correctly etc... Not sure if I should add hours, presumably no one is going to play this for hours
-  //NEXT STEPS: MAKE RESET BUTTON WORK - CHECK RUBRIC AND INSTRUCTIONS AGAIN TO MAKE SURE I'M DOING THIS CORRECTLY!
+// NOTES: AM 8/6 - I think my previous notes are off by a day. I worked on this yesterday the 5th but was stuck. I think all notes prior to this are off by a day.
+  //Changed the way the timer works so that I could stop it. Timer now stops when all cards are matched - YAY this was very difficult to figure out!
+
+
+//NEXT STEPS: MAKE RESET BUTTON WORK - CHECK RUBRIC AND INSTRUCTIONS AGAIN TO MAKE SURE I'M DOING THIS CORRECTLY! - use function to reset timer (clearInterval), clear moves, clear all "matched" classes, clear matchedCards array, clear open cards Array
 
 //GENERAL NOTE before submitting project - go back and look at lesson 21 - avoid using too many events. May need to restructure this.
 
@@ -86,26 +90,33 @@ let starCounter = function(){
 }
 
 let timerOff = true
-let timeDisplay = document.querySelector('.timer')
 let seconds = 0
 let minutes = 0
+let time;
 
-let runTimer = function (){
-  setInterval(function(){
-      seconds++;
-      if (seconds < 10){
-       timeDisplay.textContent = minutes+":0"+seconds;
-       }
-      else if (seconds >= 10 && seconds <60){
-        timeDisplay.textContent = minutes+":"+seconds;
-      }
-      else if (seconds === 60){
-        minutes++;
-        seconds = 0;
-        timeDisplay.textContent = minutes+":0"+seconds;
-      }
-    }, 1000)
+let displayTime = function (){
+  const timeDisplay = document.querySelector('.timer')
+  if (seconds < 10){
+   timeDisplay.textContent = minutes+":0"+seconds;
+   }
+  else if (seconds >= 10 && seconds <60){
+    timeDisplay.textContent = minutes+":"+seconds;
+  }
+  else if (seconds === 60){
+    minutes++;
+    seconds = 0;
+    timeDisplay.textContent = minutes+":0"+seconds;
+  }
 }
+
+let runTimer = function(){
+  time = setInterval(function(){
+    seconds++;
+    displayTime();
+  }, 1000)
+}
+
+
 
 let matchedCards =[]
 
@@ -133,7 +144,7 @@ resetButton.addEventListener('click', function(){
   location.reload();
 })
 
-//-----this for each loop works, adds event listner for click and only flips two cards, stuck after that so tried for loop you see below---
+//-----loops over each 'card' in card Array---
 cardsArray.forEach(function cardClick (card){
 
   // listens for click of each card
@@ -141,9 +152,9 @@ cardsArray.forEach(function cardClick (card){
 
       //starts timer - checks if timer is off(on each click), if it is off, it sets it to on (aka timerOff=false), once timer is on it increase the time each second (did not add hours, should I?) -also is there better way to do this so it's not checking on each click?
       if (timerOff){
+        runTimer();
           timerOff = false
-          runTimer();
-        }
+          }
 
       // stops showing any cards after 2 have been flipped
       if (openCards.length < 2){
@@ -168,19 +179,20 @@ cardsArray.forEach(function cardClick (card){
 
       }
 
-      //working on winning functionality
-        // if (matchedCards.length === 8){
-        //   console.log("you've won!")
-        // }
-
+        // working on winning functionality - winning is when all cards are matched ie that matchedCards array has 8 pairs
+          if (matchedCards.length === 8){
+            //stops the clock when you win
+            clearInterval(time);
+          }
     })
+
 
   });
 
 // --- Altertanative attempts are below this line --- Everything above this line is currently what I'm working on ---
 
 
-// - Attempt to separate out functions -
+// - Abandoned attempt to change from forEach to regular for loop
     // //works to 'flip' a card when for loop is run, cardFlip has to be defined before running the loop as this is pased into it
     // let cardFlip = function (){
     //   this.classList.add('open','show', 'disable');
@@ -192,32 +204,3 @@ cardsArray.forEach(function cardClick (card){
     //   for (let x = 0; x < cardsArray.length; x++ ){
     //     cardsArray[x].addEventListener('click', cardFlip)
     //   }
-
-// - Can't remember what I was doing here, not sure I need this anymore, but will keep just incase
-    // searches for any cards with open class and creates an array
-    //   let openCards = document.getElementsByClassName('open')
-    //   let openArray = Array.from(openCards)
-    //   let openCard1 = openArray[0]
-    //   let openCard2 = openArray[1]
-
-
-// - I think this was my first attempt at separating out the functions, but was still trying to use for each loop instead of regular for loop.
-    /*
-     * Flip Card + Allow only 2 (abandoned attempt)
-     */
-         //
-         // const allCards = document.getElementsByClassName ('card')
-         // const cardsArray = Array.from(allCards)
-         //
-         // let openCards = document.getElementsByClassName('open')
-         // let openArray = Array.from(openCards)
-         //
-         // let cardFlip = cardsArray.forEach(function (card){
-         //   if (openArray.length < 2){
-         //      card.classList.add('open', 'show');
-         //    }
-         //  };
-         //
-         //  cardsArray.forEach(function cardClick (){
-         //    card.addEventListener ('click', cardFlip)
-         //  });
