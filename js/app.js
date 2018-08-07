@@ -33,7 +33,7 @@ function shuffle(array) {
     return array;
 }
 
-// calls the shuffle function on the cards Array they, stores in shuffledCards, then adds each shuffled card's html back to page - WORKS!
+// calls the shuffle function on the cards Array, then stores in shuffledCards, then adds each shuffled card's html back to page -
 let shuffledCards = shuffle(cardsArray);
 
 shuffledCards.forEach(function(sCard){
@@ -82,11 +82,13 @@ let movesDisplay = document.querySelector('.moves')
 
 let moves = 0
 
-//increments the moves display counter (adds one each time there are two open cards - doesn't matter if that match or not) --- changed html to start at 0 not sure if I was supposed to/allowed to do that
+//increments the moves display counter (adds one each time there are two open cards - doesn't matter if that match or not)
 let moveCounter = function(){
   moves ++;
   movesDisplay.textContent = moves
 }
+
+//Stars
 
 let stars = Array.from(document.getElementsByClassName('fa fa-star'))
 
@@ -99,6 +101,8 @@ let starCounter = function(){
     stars[1].style.visibility = 'hidden';
   }
 }
+
+//Timer
 
 let timerOff = true
 let seconds = 0
@@ -128,7 +132,7 @@ let runTimer = function(){
   }, 1000)
 }
 
-
+//Cards
 
 let matchedCards =[]
 
@@ -139,6 +143,7 @@ let matched = function (){
   matchedCards.push(openCards);
   openCards = [];
 }
+
 // wait 1 second (1000miliseconds), flip cards back, empty open card array
 let unMatched = function(){
   setTimeout (function(){
@@ -147,14 +152,6 @@ let unMatched = function(){
     openCards = [];
   }, 1000);
 }
-
-//reset function - works, but reloads the whole page - I suspect this is not the way I'm supposed to do it.
-
-let resetButton = document.querySelector('.fa-repeat')
-
-resetButton.addEventListener('click', function(){
-  location.reload();
-})
 
 //-----loops over each 'card' in card Array---
 cardsArray.forEach(function cardClick (card){
@@ -167,7 +164,7 @@ cardsArray.forEach(function cardClick (card){
       //starts timer - checks if timer is off(on each click), if it is off, it sets it to on (aka timerOff=false), once timer is on it increase the time each second (did not add hours, should I?) -also is there better way to do this so it's not checking on each click?
       if (timerOff){
         runTimer();
-          timerOff = false
+        timerOff = false;
           }
 
       // stops showing any cards after 2 have been flipped
@@ -190,27 +187,56 @@ cardsArray.forEach(function cardClick (card){
           starCounter();
 
         }
-
       }
 
-        // working on winning functionality - winning is when all cards are matched ie that matchedCards array has 8 pairs
-          if (matchedCards.length === 1){
-            //stops the clock when you win
-            clearInterval(time);
-            // pops up the modal when you win
-            modal.style.display = "block";
-            //allows the x to close the pop up window
-            close.onclick = function(){
-              modal.style.display = "none";
-            }
-            popMoves.textContent = "Moves: "+moves;
-            popTime.textContent = "Time: "+timeDisplay.textContent;
-            popStars.textContent = "Stars: "+stars.length;
-          }
+    // working on winning functionality - winning is when all cards are matched ie that matchedCards array has 8 pairs
+      if (matchedCards.length === 1){
+        //stops the clock when you win
+        clearInterval(time);
+        // pops up the modal when you win
+        modal.style.display = "block";
+        //allows the x to close the pop up window
+        close.onclick = function(){
+          modal.style.display = "none";
+        }
+        popMoves.textContent = "Moves: "+moves;
+        popTime.textContent = "Time: "+timeDisplay.textContent;
+        popStars.textContent = "Stars: "+stars.length;
+      }
+
+
     })
 
-
   });
+
+
+//reset function
+
+let resetButton = document.querySelector('.fa-repeat')
+
+let reset = function(){
+  //clear moves when reset button is clicked
+  moves = 0;
+  movesDisplay.textContent = "0";
+  //reset stars - works
+  stars[2].style.visibility = 'visible';
+  stars[1].style.visibility = 'visible';
+  //stop and clear clock when reset is clicked - RIGHT NOW IT DOES NOT RESTART, BUT DOES CLEAR
+  clearInterval(time);
+  timerOff = true;
+  seconds = 0;
+  minutes = 0;
+  timeDisplay.textContent = "";
+  //shuffle cardsArray
+  shuffledCards = shuffle(cardsArray);
+  shuffledCards.forEach(function(sCard){
+    deck.appendChild(sCard);
+  })
+}
+
+resetButton.addEventListener('click', reset);
+
+
 
 // --- Altertanative attempts are below this line --- Everything above this line is currently what I'm working on ---
 
