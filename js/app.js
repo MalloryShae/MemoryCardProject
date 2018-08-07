@@ -1,6 +1,11 @@
 /*
  * Create a list that holds all of your cards
  */
+const modal = document.getElementById('winModal');
+const close = document.querySelector('.close');
+const popMoves = document.querySelector('.modalMoves');
+const popTime = document.querySelector('.modalTime');
+const popStars = document.querySelector('.modalStars');
 
 const cardsArray = Array.from(document.getElementsByClassName ('card'))
 
@@ -59,6 +64,12 @@ shuffledCards.forEach(function(sCard){
     //Added timer and it works, starts on first click and goes up by second, displays correctly etc... Not sure if I should add hours, presumably no one is going to play this for hours
 // NOTES: AM 8/6 - I think my previous notes are off by a day. I worked on this yesterday the 5th but was stuck. I think all notes prior to this are off by a day.
   //Changed the way the timer works so that I could stop it. Timer now stops when all cards are matched - YAY this was very difficult to figure out!
+//Notes PM 8/6 -discovered you could click on the same card twice and it would count as a match! Need to know how to fix. Got pop up to work - modal works. Need to get stars to display and add reset/replay option to modal.
+
+//TO DO:
+  //1. Fix bug - double click on same card = matched
+  //2. Make reset button work - I'm sure refreshing the whole page is incorrect (use function to reset timer (clearInterval), clear moves, clear all "matched"classes, clear matchedCards array, clear open cards Array)
+  //3. GO back and look at lesson 21 - too many events, may need to restructure
 
 
 //NEXT STEPS: MAKE RESET BUTTON WORK - CHECK RUBRIC AND INSTRUCTIONS AGAIN TO MAKE SURE I'M DOING THIS CORRECTLY! - use function to reset timer (clearInterval), clear moves, clear all "matched" classes, clear matchedCards array, clear open cards Array
@@ -93,9 +104,10 @@ let timerOff = true
 let seconds = 0
 let minutes = 0
 let time;
+const timeDisplay = document.querySelector('.timer');
 
 let displayTime = function (){
-  const timeDisplay = document.querySelector('.timer')
+
   if (seconds < 10){
    timeDisplay.textContent = minutes+":0"+seconds;
    }
@@ -150,6 +162,8 @@ cardsArray.forEach(function cardClick (card){
   // listens for click of each card
     card.addEventListener('click', function (){
 
+      card.classList.add('disable')
+
       //starts timer - checks if timer is off(on each click), if it is off, it sets it to on (aka timerOff=false), once timer is on it increase the time each second (did not add hours, should I?) -also is there better way to do this so it's not checking on each click?
       if (timerOff){
         runTimer();
@@ -158,7 +172,7 @@ cardsArray.forEach(function cardClick (card){
 
       // stops showing any cards after 2 have been flipped
       if (openCards.length < 2){
-        card.classList.add('open', 'show', 'disable');
+        card.classList.add('open', 'show');
         openCards.push(card);
 
         //once two cards are open check for match
@@ -180,9 +194,18 @@ cardsArray.forEach(function cardClick (card){
       }
 
         // working on winning functionality - winning is when all cards are matched ie that matchedCards array has 8 pairs
-          if (matchedCards.length === 8){
+          if (matchedCards.length === 1){
             //stops the clock when you win
             clearInterval(time);
+            // pops up the modal when you win
+            modal.style.display = "block";
+            //allows the x to close the pop up window
+            close.onclick = function(){
+              modal.style.display = "none";
+            }
+            popMoves.textContent = "Moves: "+moves;
+            popTime.textContent = "Time: "+timeDisplay.textContent;
+            popStars.textContent = "Stars: "+stars.length;
           }
     })
 
