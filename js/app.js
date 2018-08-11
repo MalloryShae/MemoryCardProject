@@ -2,9 +2,9 @@
  * Create a list that holds all of your cards
  */
 
-const cardsArray = Array.from(document.getElementsByClassName ('card'))
+const cardsArray = Array.from(document.getElementsByClassName ('card'));
 
-const deck = document.querySelector('.deck')
+const deck = document.querySelector('.deck');
 
 /*
  * Display the cards on the page
@@ -47,21 +47,27 @@ shuffledCards.forEach(function(sCard){
  */
 
 
-let openCards = []
 
-let movesDisplay = document.querySelector('.moves')
+/*
+ * Moves
+ */
 
-let moves = 0
+let movesDisplay = document.querySelector('.moves');
+
+let moves = 0;
 
 //increments the moves display counter (adds one each time there are two open cards - doesn't matter if that match or not)
 let moveCounter = function(){
   moves ++;
-  movesDisplay.textContent = moves
+  movesDisplay.textContent = moves;
 }
 
-//Stars
-const stars = document.getElementsByClassName('fa fa-star')
-let starsArray = Array.from(stars)
+/*
+ * Stars
+ */
+
+const stars = document.getElementsByClassName('fa fa-star');
+let starsArray = Array.from(stars);
 
 let starCounter = function(){
   //change the star rating based on number of moves
@@ -73,11 +79,13 @@ let starCounter = function(){
   }
 }
 
-//Timer
+/*
+ * Timer
+ */
 
-let timerOff = true
-let seconds = 0
-let minutes = 0
+let timerOff = true;
+let seconds = 0;
+let minutes = 0;
 let time;
 const timeDisplay = document.querySelector('.timer');
 
@@ -100,12 +108,15 @@ let runTimer = function(){
   time = setInterval(function(){
     seconds++;
     displayTime();
-  }, 1000)
+  }, 1000);
 }
 
-//Cards
+/*
+ * Cards
+ */
 
-let matchedCards =[]
+let openCards = [];
+let matchedCards =[];
 
 //keep cards flipped and change color, then empty the open card array
 let matched = function (){
@@ -125,10 +136,11 @@ let unMatched = function(){
 }
 
 
+/*
+ * Reset
+ */
 
-//reset function
-
-let resetButton = document.querySelector('.fa-repeat')
+let resetButton = document.querySelector('.fa-repeat');
 
 let reset = function(){
   //clear moves when reset button is clicked
@@ -146,9 +158,9 @@ let reset = function(){
   //reset cards
   cardsArray.forEach(function(card){
     card.classList.remove('open', 'show', 'match');
-  })
-  openCards = []
-  matchedCards = []
+  });
+  openCards = [];
+  matchedCards = [];
 
   //shuffle cardsArray
   shuffledCards = shuffle(cardsArray);
@@ -159,10 +171,18 @@ let reset = function(){
 
 resetButton.addEventListener('click', reset);
 
-const modal = document.getElementById('winModal');
+/*
+ * Modal
+ */
+
+const modal = document.getElementById('win-modal');
 const close = document.querySelector('.close');
-const popMoves = document.querySelector('.modalMoves');
-const popTime = document.querySelector('.modalTime');
+const popMoves = document.querySelector('.modal-moves');
+const popTime = document.querySelector('.modal-time');
+
+/*
+ * Game Play
+ */
 
 //-----loops over each 'card' in card Array---
 cardsArray.forEach(function cardClick (card){
@@ -187,10 +207,8 @@ cardsArray.forEach(function cardClick (card){
           if (openCards[0].innerHTML === openCards[1].innerHTML){
             //if there is a match, run matched (keeps cards flipped)
             matched();
-          }
-
-          //if there is not a match, run umMatched (flips card back)
-          else unMatched();
+            // if there is not a match, run umMatched (flips card back)
+          } else unMatched();
 
           // run move counter function to increase moves
           moveCounter();
@@ -220,12 +238,12 @@ cardsArray.forEach(function cardClick (card){
         popTime.textContent = "Time: "+timeDisplay.textContent;
 
         //display stars in modal
-        const popStars = document.querySelector('.modalStars');
+        const popStars = document.querySelector('.modal-stars');
         const starsForm = document.querySelector('.stars');
         popStars.innerHTML = "Stars: "+ starsForm.innerHTML;
 
         //reset function in modal
-        document.querySelector('.playAgain').addEventListener('click',function(){
+        document.querySelector('.play-again').addEventListener('click',function(){
           reset();
           modal.style.display = 'none';
         });
@@ -235,38 +253,3 @@ cardsArray.forEach(function cardClick (card){
     });
 
   });
-
-
-// NOTES: AM 8/1 - need to separate out functions, see instructions/hints above, moved card array to the top of this page
-// NOTES: AM 8/3 - working on separating out functions below, but not sure this is the solution I'm looking for. Still getting stuck on the logic after the cards are flipped. The for each loop and the nested functions within that make more sense to me. BUT I think the nesting might be what is hanging me up. Even so if you are going to be separating the functions and then calling them within the other functions then that's still the same thing so maybe this is a giant waste of time!
-// NOTES: PM 8/4 - got the for each loop I was originally working on to work. Stopped trying to separate out the functions. May need to go back and do that if the hits in the starter code comments are any indication. But for now I have the card flipping and matching working. Next up I think I will try to get the moves counter to work.
-// NOTES: PM 8/5 -
-    //Added move counter and it works, not sure if I was allowed to switch the html to start at 0, but I did. Added stars decreasing functionality.
-    //Added timer and it works, starts on first click and goes up by second, displays correctly etc... Not sure if I should add hours, presumably no one is going to play this for hours
-// NOTES: AM 8/6 - I think my previous notes are off by a day. I worked on this yesterday the 5th but was stuck. I think all notes prior to this are off by a day.
-  //Changed the way the timer works so that I could stop it. Timer now stops when all cards are matched - YAY this was very difficult to figure out!
-//Notes PM 8/6 -discovered you could click on the same card twice and it would count as a match! Need to know how to fix. Got pop up to work - modal works. Need to get stars to display and add reset/replay option to modal.
-//Notes PM 8/7 - got reset to work, figured out number of stars was incorrect and trying to fix stars to display. have not looked at double clicking the same card creating match
-//Notes AM 8/11 - got answer to stars and double click from slack and fixed both. Yay! Today is study jam session. Fixed reset button to flip cards back over and clear both open and matched card arrays. Play again button on modal - resets game and closes modal. GAME IS FULLY FUNCTIONAL!! WOO HOOOOOOO
-
-//TO DO:
-  //1. GO back and look at lesson 21 - too many events, may need to restructure
-  //3. Verify code meets criteria and style guidelines
-  //4. SUBMIT! WOO HOO
-
-
-// --- Altertanative attempts are below this line --- Everything above this line is currently what I'm working on ---
-
-
-// - Abandoned attempt to change from forEach to regular for loop
-    // //works to 'flip' a card when for loop is run, cardFlip has to be defined before running the loop as this is pased into it
-    // let cardFlip = function (){
-    //   this.classList.add('open','show', 'disable');
-    //   openCards.push(this);
-    //   console.log(openCards.length);
-    // }
-    //
-    // // works to add event listener to each card with a for loop instead of for each
-    //   for (let x = 0; x < cardsArray.length; x++ ){
-    //     cardsArray[x].addEventListener('click', cardFlip)
-    //   }
