@@ -204,7 +204,7 @@ let reset = function(){
   //clear moves when reset button is clicked
   moves = 0;
   movesDisplay.textContent = "0";
-  //reset stars - works
+  //reset stars
   stars[2].style.visibility = 'visible';
   stars[1].style.visibility = 'visible';
   //stop and clear clock when reset is clicked - RIGHT NOW IT DOES NOT RESTART, BUT DOES CLEAR
@@ -214,6 +214,11 @@ let reset = function(){
   minutes = 0;
   timeDisplay.textContent = "";
   //reset cards
+  cardsArray.forEach(function(card){
+    card.classList.remove('open', 'show', 'match');
+  })
+  openCards = []
+  matchedCards = []
 
   //shuffle cardsArray
   shuffledCards = shuffle(cardsArray);
@@ -235,12 +240,11 @@ resetButton.addEventListener('click', reset);
   //Changed the way the timer works so that I could stop it. Timer now stops when all cards are matched - YAY this was very difficult to figure out!
 //Notes PM 8/6 -discovered you could click on the same card twice and it would count as a match! Need to know how to fix. Got pop up to work - modal works. Need to get stars to display and add reset/replay option to modal.
 //Notes PM 8/7 - got reset to work, figured out number of stars was incorrect and trying to fix stars to display. have not looked at double clicking the same card creating match
+//Notes AM 8/11 - got answer to stars and double click from slack and fixed both. Yay! Today is study jam session
 
 //TO DO:
-  //1. Get stars to display on modal correctly - FIX
   //2. Add resetting cards to reset - clear matched Cards array, clear open cards Array, clear all "matched classes" - FIX
   //2. Put replay button on modal - FEAT
-  //2. Fix bug - double click on same card = matched - FIX
   //3. GO back and look at lesson 21 - too many events, may need to restructure
 
 
