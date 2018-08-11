@@ -134,66 +134,6 @@ let unMatched = function(){
   }, 1000);
 }
 
-//-----loops over each 'card' in card Array---
-cardsArray.forEach(function cardClick (card){
-
-  // listens for click of each card
-    card.addEventListener('click', function (){
-
-      //starts timer - checks if timer is off(on each click), if it is off, it sets it to on (aka timerOff=false), once timer is on it increase the time each second (did not add hours, should I?) -also is there better way to do this so it's not checking on each click?
-      if (timerOff){
-        runTimer();
-        timerOff = false;
-          }
-
-      // stops showing any cards after 2 have been flipped
-      if (openCards.length < 2){
-        card.classList.add('open', 'show');
-        openCards.push(card);
-
-        //once two cards are open check for match
-        if (openCards.length === 2){
-          if (openCards[0].innerHTML === openCards[1].innerHTML){
-            //if there is a match, run matched (keeps cards flipped)
-            matched();
-          }
-
-          //if there is not a match, run umMatched (flips card back)
-          else unMatched();
-
-          moveCounter();
-
-          starCounter();
-
-        }
-      }
-
-    // working on winning functionality - winning is when all cards are matched ie that matchedCards array has 8 pairs
-      if (matchedCards.length === 8){
-        //stops the clock when you win
-        clearInterval(time);
-        // pops up the modal when you win
-        modal.style.display = 'block';
-        //allows the x to close the pop up window
-        close.onclick = function(){
-          modal.style.display = 'none';
-        }
-        //displays current moves in modal
-        popMoves.textContent = "Moves: "+moves;
-        //displays winning time in modal
-        popTime.textContent = "Time: "+timeDisplay.textContent;
-        //display stars in modal
-        const popStars = document.querySelector('.modalStars');
-        const starsForm = document.querySelector('.stars');
-        // stars.style.listStyle = 'none';
-        console.log(starsForm.innerHTML);
-        popStars.innerHTML = "Stars: "+ starsForm.innerHTML;
-      }
-
-
-    })
-
-  });
 
 
 //reset function
@@ -230,6 +170,71 @@ let reset = function(){
 resetButton.addEventListener('click', reset);
 
 
+//-----loops over each 'card' in card Array---
+cardsArray.forEach(function cardClick (card){
+
+  // listens for click of each card
+    card.addEventListener('click', function (){
+
+      //starts timer - checks if timer is off(on each click), if it is off, it sets it to on (aka timerOff=false), once timer is on it increase the time each second (did not add hours, should I?) -also is there better way to do this so it's not checking on each click?
+      if (timerOff){
+        runTimer();
+        timerOff = false;
+          }
+
+      // stops showing any cards after 2 have been flipped
+      if (openCards.length < 2){
+        card.classList.add('open', 'show');
+        openCards.push(card);
+
+        //once two cards are open check for match
+        if (openCards.length === 2){
+          if (openCards[0].innerHTML === openCards[1].innerHTML){
+            //if there is a match, run matched (keeps cards flipped)
+            matched();
+          }
+
+          //if there is not a match, run umMatched (flips card back)
+          else unMatched();
+
+          moveCounter();
+
+          starCounter();
+
+        }
+      }
+
+    // working on winning functionality - winning is when all cards are matched ie that matchedCards array has 8 pairs
+      if (matchedCards.length === 1){
+        //stops the clock when you win
+        clearInterval(time);
+        // pops up the modal when you win
+        modal.style.display = 'block';
+        //allows the x to close the pop up window
+        close.onclick = function(){
+          modal.style.display = 'none';
+        }
+        //displays current moves in modal
+        popMoves.textContent = "Moves: "+moves;
+        //displays winning time in modal
+        popTime.textContent = "Time: "+timeDisplay.textContent;
+        //display stars in modal
+        const popStars = document.querySelector('.modalStars');
+        const starsForm = document.querySelector('.stars');
+        popStars.innerHTML = "Stars: "+ starsForm.innerHTML;
+        //reset function in modal
+        document.querySelector('.playAgain').addEventListener('click',function(){
+          reset();
+          modal.style.display = 'none';
+        });
+      }
+
+
+    })
+
+  });
+
+
 // NOTES: AM 8/1 - need to separate out functions, see instructions/hints above, moved card array to the top of this page
 // NOTES: AM 8/3 - working on separating out functions below, but not sure this is the solution I'm looking for. Still getting stuck on the logic after the cards are flipped. The for each loop and the nested functions within that make more sense to me. BUT I think the nesting might be what is hanging me up. Even so if you are going to be separating the functions and then calling them within the other functions then that's still the same thing so maybe this is a giant waste of time!
 // NOTES: PM 8/4 - got the for each loop I was originally working on to work. Stopped trying to separate out the functions. May need to go back and do that if the hits in the starter code comments are any indication. But for now I have the card flipping and matching working. Next up I think I will try to get the moves counter to work.
@@ -240,10 +245,9 @@ resetButton.addEventListener('click', reset);
   //Changed the way the timer works so that I could stop it. Timer now stops when all cards are matched - YAY this was very difficult to figure out!
 //Notes PM 8/6 -discovered you could click on the same card twice and it would count as a match! Need to know how to fix. Got pop up to work - modal works. Need to get stars to display and add reset/replay option to modal.
 //Notes PM 8/7 - got reset to work, figured out number of stars was incorrect and trying to fix stars to display. have not looked at double clicking the same card creating match
-//Notes AM 8/11 - got answer to stars and double click from slack and fixed both. Yay! Today is study jam session
+//Notes AM 8/11 - got answer to stars and double click from slack and fixed both. Yay! Today is study jam session. Fixed reset button to flip cards back over and clear both open and matched card arrays.
 
 //TO DO:
-  //2. Add resetting cards to reset - clear matched Cards array, clear open cards Array, clear all "matched classes" - FIX
   //2. Put replay button on modal - FEAT
   //3. GO back and look at lesson 21 - too many events, may need to restructure
 
