@@ -75,7 +75,7 @@ let starsArray = Array.from(stars)
 
 let starCounter = function(){
   //change the star rating based on number of moves
-  if (moves > 2 && moves <= 20){
+  if (moves > 12 && moves <= 20){
       starsArray[2].style.visibility = 'hidden';
   }
   else if (moves > 20){
@@ -128,8 +128,8 @@ let matched = function (){
 // wait 1 second (1000miliseconds), flip cards back, empty open card array
 let unMatched = function(){
   setTimeout (function(){
-    openCards[0].classList.remove('open', 'show','disable');
-    openCards[1].classList.remove('open', 'show','disable');
+    openCards[0].classList.remove('open', 'show');
+    openCards[1].classList.remove('open', 'show');
     openCards = [];
   }, 1000);
 }
@@ -139,8 +139,6 @@ cardsArray.forEach(function cardClick (card){
 
   // listens for click of each card
     card.addEventListener('click', function (){
-
-      card.classList.add('disable')
 
       //starts timer - checks if timer is off(on each click), if it is off, it sets it to on (aka timerOff=false), once timer is on it increase the time each second (did not add hours, should I?) -also is there better way to do this so it's not checking on each click?
       if (timerOff){
@@ -171,7 +169,7 @@ cardsArray.forEach(function cardClick (card){
       }
 
     // working on winning functionality - winning is when all cards are matched ie that matchedCards array has 8 pairs
-      if (matchedCards.length === 1){
+      if (matchedCards.length === 8){
         //stops the clock when you win
         clearInterval(time);
         // pops up the modal when you win
