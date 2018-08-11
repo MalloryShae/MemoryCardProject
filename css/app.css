@@ -143,6 +143,10 @@ h1 {
   margin-top: auto;
 }
 
+h1{
+  text-align: center;
+}
+
 .playAgain{
   display: block;
   align-items: center;

@@ -1,11 +1,6 @@
 /*
  * Create a list that holds all of your cards
  */
-const modal = document.getElementById('winModal');
-const close = document.querySelector('.close');
-const popMoves = document.querySelector('.modalMoves');
-const popTime = document.querySelector('.modalTime');
-
 
 const cardsArray = Array.from(document.getElementsByClassName ('card'))
 
@@ -49,11 +44,6 @@ shuffledCards.forEach(function(sCard){
  *    + if the cards do not match, remove the cards from the list and hide the card's symbol (put this functionality in another function that you call from this one)
  *    + increment the move counter and display it on the page (put this functionality in another function that you call from this one)
  *    + if all cards have matched, display a message with the final score (put this functionality in another function that you call from this one)
- */
-
-
-/*
- * Flip Card + Only allow 2 cards to be flipped - WORKS
  */
 
 
@@ -169,6 +159,10 @@ let reset = function(){
 
 resetButton.addEventListener('click', reset);
 
+const modal = document.getElementById('winModal');
+const close = document.querySelector('.close');
+const popMoves = document.querySelector('.modalMoves');
+const popTime = document.querySelector('.modalTime');
 
 //-----loops over each 'card' in card Array---
 cardsArray.forEach(function cardClick (card){
@@ -176,19 +170,20 @@ cardsArray.forEach(function cardClick (card){
   // listens for click of each card
     card.addEventListener('click', function (){
 
-      //starts timer - checks if timer is off(on each click), if it is off, it sets it to on (aka timerOff=false), once timer is on it increase the time each second (did not add hours, should I?) -also is there better way to do this so it's not checking on each click?
+      //starts timer - checks if timer is off, if it is off, it sets it to on, once timer is on it increase the time each second
       if (timerOff){
         runTimer();
         timerOff = false;
           }
 
-      // stops showing any cards after 2 have been flipped
+      // Allows two cards to be flipped at a time
       if (openCards.length < 2){
         card.classList.add('open', 'show');
         openCards.push(card);
 
         //once two cards are open check for match
         if (openCards.length === 2){
+
           if (openCards[0].innerHTML === openCards[1].innerHTML){
             //if there is a match, run matched (keeps cards flipped)
             matched();
@@ -197,31 +192,38 @@ cardsArray.forEach(function cardClick (card){
           //if there is not a match, run umMatched (flips card back)
           else unMatched();
 
+          // run move counter function to increase moves
           moveCounter();
 
+          //run star counter function, decrease stars accordingly
           starCounter();
-
         }
       }
 
-    // working on winning functionality - winning is when all cards are matched ie that matchedCards array has 8 pairs
-      if (matchedCards.length === 1){
+    // Display pop up when game is won (all cards are matched)
+      if (matchedCards.length === 8){
         //stops the clock when you win
         clearInterval(time);
+
         // pops up the modal when you win
         modal.style.display = 'block';
+
         //allows the x to close the pop up window
         close.onclick = function(){
           modal.style.display = 'none';
         }
+
         //displays current moves in modal
         popMoves.textContent = "Moves: "+moves;
+
         //displays winning time in modal
         popTime.textContent = "Time: "+timeDisplay.textContent;
+
         //display stars in modal
         const popStars = document.querySelector('.modalStars');
         const starsForm = document.querySelector('.stars');
         popStars.innerHTML = "Stars: "+ starsForm.innerHTML;
+
         //reset function in modal
         document.querySelector('.playAgain').addEventListener('click',function(){
           reset();
@@ -230,7 +232,7 @@ cardsArray.forEach(function cardClick (card){
       }
 
 
-    })
+    });
 
   });
 
@@ -245,11 +247,12 @@ cardsArray.forEach(function cardClick (card){
   //Changed the way the timer works so that I could stop it. Timer now stops when all cards are matched - YAY this was very difficult to figure out!
 //Notes PM 8/6 -discovered you could click on the same card twice and it would count as a match! Need to know how to fix. Got pop up to work - modal works. Need to get stars to display and add reset/replay option to modal.
 //Notes PM 8/7 - got reset to work, figured out number of stars was incorrect and trying to fix stars to display. have not looked at double clicking the same card creating match
-//Notes AM 8/11 - got answer to stars and double click from slack and fixed both. Yay! Today is study jam session. Fixed reset button to flip cards back over and clear both open and matched card arrays.
+//Notes AM 8/11 - got answer to stars and double click from slack and fixed both. Yay! Today is study jam session. Fixed reset button to flip cards back over and clear both open and matched card arrays. Play again button on modal - resets game and closes modal. GAME IS FULLY FUNCTIONAL!! WOO HOOOOOOO
 
 //TO DO:
-  //2. Put replay button on modal - FEAT
-  //3. GO back and look at lesson 21 - too many events, may need to restructure
+  //1. GO back and look at lesson 21 - too many events, may need to restructure
+  //3. Verify code meets criteria and style guidelines
+  //4. SUBMIT! WOO HOO
 
 
 // --- Altertanative attempts are below this line --- Everything above this line is currently what I'm working on ---

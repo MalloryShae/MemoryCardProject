@@ -1,20 +1,30 @@
 # Memory Game Project
 
+A browser based version of the classic memory card game!
+
 ## Table of Contents
 
+* [Installation](#installation)
 * [Instructions](#instructions)
 * [Contributing](#contributing)
 
+## Installation
+
+This game is designed to run locally on your computer. Click the clone or download button above and then open the index.html file in your favorite browser to get started
+
 ## Instructions
 
-The starter project has some HTML and CSS styling to display a static version of the Memory Game project. You'll need to convert this project from a static project to an interactive one. This will require modifying the HTML and CSS files, but primarily the JavaScript file.
+Goal: Match all cards in the fewest moves and shortest amount of time!
 
-To get started, open `js/app.js` and start building out the app's functionality
+Game Play:
+1. Click cards to reveal their icons
+2. Cards are flipped in pairs
+3. Match all 8 pairs of cards to win!
 
-For specific, detailed instructions, look at the project instructions in the [Udacity Classroom](https://classroom.udacity.com/me).
+## Authors
+
+Starter code provided by Udacity: https://github.com/udacity/fend-project-memory-game
 
 ## Contributing
 
-This repository is the starter code for _all_ Udacity students. Therefore, we most likely will not accept pull requests.
-
-For details, check out [CONTRIBUTING.md](CONTRIBUTING.md).
+This repository is a project for the Front End Web Development Udacity course, so I will most likely not be accepting pull requests.
