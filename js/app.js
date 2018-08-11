@@ -5,7 +5,7 @@ const modal = document.getElementById('winModal');
 const close = document.querySelector('.close');
 const popMoves = document.querySelector('.modalMoves');
 const popTime = document.querySelector('.modalTime');
-const popStars = document.querySelector('.modalStars');
+
 
 const cardsArray = Array.from(document.getElementsByClassName ('card'))
 
@@ -56,25 +56,6 @@ shuffledCards.forEach(function(sCard){
  * Flip Card + Only allow 2 cards to be flipped - WORKS
  */
 
-// NOTES: AM 8/1 - need to separate out functions, see instructions/hints above, moved card array to the top of this page
-// NOTES: AM 8/3 - working on separating out functions below, but not sure this is the solution I'm looking for. Still getting stuck on the logic after the cards are flipped. The for each loop and the nested functions within that make more sense to me. BUT I think the nesting might be what is hanging me up. Even so if you are going to be separating the functions and then calling them within the other functions then that's still the same thing so maybe this is a giant waste of time!
-// NOTES: PM 8/4 - got the for each loop I was originally working on to work. Stopped trying to separate out the functions. May need to go back and do that if the hits in the starter code comments are any indication. But for now I have the card flipping and matching working. Next up I think I will try to get the moves counter to work.
-// NOTES: PM 8/5 -
-    //Added move counter and it works, not sure if I was allowed to switch the html to start at 0, but I did. Added stars decreasing functionality.
-    //Added timer and it works, starts on first click and goes up by second, displays correctly etc... Not sure if I should add hours, presumably no one is going to play this for hours
-// NOTES: AM 8/6 - I think my previous notes are off by a day. I worked on this yesterday the 5th but was stuck. I think all notes prior to this are off by a day.
-  //Changed the way the timer works so that I could stop it. Timer now stops when all cards are matched - YAY this was very difficult to figure out!
-//Notes PM 8/6 -discovered you could click on the same card twice and it would count as a match! Need to know how to fix. Got pop up to work - modal works. Need to get stars to display and add reset/replay option to modal.
-
-//TO DO:
-  //1. Fix bug - double click on same card = matched
-  //2. Make reset button work - I'm sure refreshing the whole page is incorrect (use function to reset timer (clearInterval), clear moves, clear all "matched"classes, clear matchedCards array, clear open cards Array)
-  //3. GO back and look at lesson 21 - too many events, may need to restructure
-
-
-//NEXT STEPS: MAKE RESET BUTTON WORK - CHECK RUBRIC AND INSTRUCTIONS AGAIN TO MAKE SURE I'M DOING THIS CORRECTLY! - use function to reset timer (clearInterval), clear moves, clear all "matched" classes, clear matchedCards array, clear open cards Array
-
-//GENERAL NOTE before submitting project - go back and look at lesson 21 - avoid using too many events. May need to restructure this.
 
 let openCards = []
 
@@ -89,16 +70,16 @@ let moveCounter = function(){
 }
 
 //Stars
-
-let stars = Array.from(document.getElementsByClassName('fa fa-star'))
+const stars = document.getElementsByClassName('fa fa-star')
+let starsArray = Array.from(stars)
 
 let starCounter = function(){
   //change the star rating based on number of moves
-  if (moves > 12 && moves <= 20){
-      stars[2].style.visibility = 'hidden';
+  if (moves > 2 && moves <= 20){
+      starsArray[2].style.visibility = 'hidden';
   }
   else if (moves > 20){
-    stars[1].style.visibility = 'hidden';
+    starsArray[1].style.visibility = 'hidden';
   }
 }
 
@@ -194,14 +175,21 @@ cardsArray.forEach(function cardClick (card){
         //stops the clock when you win
         clearInterval(time);
         // pops up the modal when you win
-        modal.style.display = "block";
+        modal.style.display = 'block';
         //allows the x to close the pop up window
         close.onclick = function(){
-          modal.style.display = "none";
+          modal.style.display = 'none';
         }
+        //displays current moves in modal
         popMoves.textContent = "Moves: "+moves;
+        //displays winning time in modal
         popTime.textContent = "Time: "+timeDisplay.textContent;
-        popStars.textContent = "Stars: "+stars.length;
+        //display stars in modal
+        const popStars = document.querySelector('.modalStars');
+        const starsForm = document.querySelector('.stars');
+        // stars.style.listStyle = 'none';
+        console.log(starsForm.innerHTML);
+        popStars.innerHTML = "Stars: "+ starsForm.innerHTML;
       }
 
 
@@ -227,6 +215,8 @@ let reset = function(){
   seconds = 0;
   minutes = 0;
   timeDisplay.textContent = "";
+  //reset cards
+
   //shuffle cardsArray
   shuffledCards = shuffle(cardsArray);
   shuffledCards.forEach(function(sCard){
@@ -236,6 +226,24 @@ let reset = function(){
 
 resetButton.addEventListener('click', reset);
 
+
+// NOTES: AM 8/1 - need to separate out functions, see instructions/hints above, moved card array to the top of this page
+// NOTES: AM 8/3 - working on separating out functions below, but not sure this is the solution I'm looking for. Still getting stuck on the logic after the cards are flipped. The for each loop and the nested functions within that make more sense to me. BUT I think the nesting might be what is hanging me up. Even so if you are going to be separating the functions and then calling them within the other functions then that's still the same thing so maybe this is a giant waste of time!
+// NOTES: PM 8/4 - got the for each loop I was originally working on to work. Stopped trying to separate out the functions. May need to go back and do that if the hits in the starter code comments are any indication. But for now I have the card flipping and matching working. Next up I think I will try to get the moves counter to work.
+// NOTES: PM 8/5 -
+    //Added move counter and it works, not sure if I was allowed to switch the html to start at 0, but I did. Added stars decreasing functionality.
+    //Added timer and it works, starts on first click and goes up by second, displays correctly etc... Not sure if I should add hours, presumably no one is going to play this for hours
+// NOTES: AM 8/6 - I think my previous notes are off by a day. I worked on this yesterday the 5th but was stuck. I think all notes prior to this are off by a day.
+  //Changed the way the timer works so that I could stop it. Timer now stops when all cards are matched - YAY this was very difficult to figure out!
+//Notes PM 8/6 -discovered you could click on the same card twice and it would count as a match! Need to know how to fix. Got pop up to work - modal works. Need to get stars to display and add reset/replay option to modal.
+//Notes PM 8/7 - got reset to work, figured out number of stars was incorrect and trying to fix stars to display. have not looked at double clicking the same card creating match
+
+//TO DO:
+  //1. Get stars to display on modal correctly - FIX
+  //2. Add resetting cards to reset - clear matched Cards array, clear open cards Array, clear all "matched classes" - FIX
+  //2. Put replay button on modal - FEAT
+  //2. Fix bug - double click on same card = matched - FIX
+  //3. GO back and look at lesson 21 - too many events, may need to restructure
 
 
 // --- Altertanative attempts are below this line --- Everything above this line is currently what I'm working on ---

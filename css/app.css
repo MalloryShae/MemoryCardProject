@@ -135,6 +135,12 @@ h1 {
   border-radius: 0.5rem;
 }
 
+.modalStars{
+  list-style: none;
+  display:inline-flex;
+  margin-top: auto;
+}
+
 .close {
     color: black;
     float: right;
